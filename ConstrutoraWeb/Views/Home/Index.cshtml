@@ -1,0 +1,170 @@
+﻿@model ConstrutoraWeb.Models.HomeViewModel
+
+@{
+    ViewBag.Title = "Painel do Morador";
+}
+
+<div style="margin:5%">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4><span class="glyphicon glyphicon-signal"></span> Dashebord</h4>
+            </div>
+            <div class="panel-body">
+                @if (Session["Editou"] != null)
+                {
+                    if ((bool)Session["Editou"] == true)
+                    {
+                        <script type="text/javascript">
+                            alert("Edição efetuada com sucesso");
+                        </script>
+                    }
+                    else
+                    {
+                        <script type="text/javascript">
+                            alert("Erro ao Editar");
+                        </script>
+                    }
+
+                    Session["Editou"] = null;
+                }
+                <div class="col-md-4">
+                    <div class="card text-center col-md-12">
+                        <img class="card-img-top" style="border: 1px solid black;" src="@Model.CaminhoImagem" alt="Card image cap">
+                        <div class="card-body form-group">
+                            <h4 class="card-title">Informações do Morador</h4>
+                            <div class="form-group text-left">
+                                <dl class="pull-left form-group">
+                                    <dt class="form-control">
+                                        @Html.DisplayNameFor(model => model.MoradorID)
+                                        @Html.DisplayFor(model => model.MoradorID)
+                                    </dt>
+
+                                    <dt class="form-control">
+                                        @Html.DisplayNameFor(model => model.Nome)
+                                        @Html.DisplayFor(model => model.Nome)
+                                    </dt>
+
+                                    <dt class="form-control">
+                                        @Html.DisplayNameFor(model => model.UltimoNome)
+                                        @Html.DisplayFor(model => model.UltimoNome)
+                                    </dt>
+
+                                    <dt class="form-control">
+                                        @Html.DisplayNameFor(model => model.Email)
+                                        @Html.DisplayFor(model => model.Email)
+                                    </dt>
+
+                                    <dt class="form-control">
+                                        @Html.DisplayNameFor(model => model.DataNascimento)
+                                        @Html.DisplayFor(model => model.DataNasci)
+                                    </dt>
+                                </dl>
+                            </div>
+                            <div class="form-group" align="left">
+                                <botton type="submit" value="Editar" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                    <span class="glyphicon glyphicon-edit"></span> Editar
+                                </botton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-8">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    Informações de Moradia
+                                </h4>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Click <a href="#">aqui</a> para mais informação.
+                                </h6>
+                                <p class="card-text">
+                                    <b>Residência no condôminio</b> @Html.DisplayFor(model => model.Apartamento.Predio.Bloco.Condominio.Nome)<br />
+                                    <b>Bloco</b> @Html.DisplayFor(model => model.Apartamento.Predio.Bloco.Nome)<br />
+                                    <b>Prédio</b> @Html.DisplayFor(model => model.Apartamento.Predio.Nome)<br />
+                                    <b>Apartamento</b> @Html.DisplayFor(model => model.Apartamento.AptAndar)<br />
+                                    <b>Andar do Prédio:</b>  @Html.DisplayFor(model => model.Apartamento.AndarPredio)<br />
+                                    <b>Endereço: </b> @Html.DisplayFor(model => model.Apartamento.Predio.Bloco.Condominio.Endereco),&nbsp;@Html.DisplayFor(model => model.Apartamento.Predio.Bloco.Condominio.CEP)&nbsp;
+                                    @Html.DisplayFor(model => model.Apartamento.Predio.Bloco.Condominio.Bairro)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>Pessoas que Residem com Você</h4>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-responsive-sm table-hover table-bordered">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Código</th>
+                                            <th scope="col">Nome</th>
+                                            <th scope="col">Sobrenome</th>
+                                            <th scope="col">E-mail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach(var item in Model.ListaMoradores)
+                                        {
+                                            <tr>
+                                                <th scope="row">@item.MoradorID</th>
+                                                <td>@item.Nome</td>
+                                                <td>@item.UltimoNome</td>
+                                                <td>@item.Email</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+@using (Html.BeginForm("Editar", "Home", FormMethod.Post))
+{
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="dialog">
+                <div class="modal-content">
+                    <div class="modal-header panel panel-heading panel-info">
+                        <h5 id="exampleModalLabel">Editar Morador: @Model.Nome</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          @Html.EditorFor(model => Model.Nome, new { htmlAttributes = new { @class = "form-control form-control-sm", @placeholder = "Ex: Lucas" } })
+                          @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger"})
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(model => Model.UltimoNome, new { htmlAttributes = new { @class = "form-control form-control-sm", @placeholder = "Ex: Silva" } })
+                            @Html.ValidationMessageFor(model => model.UltimoNome, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(model => Model.Email, new { htmlAttributes = new { @class = "form-control form-control-sm", @placeholder = "Ex: exemplo@exemplo.com" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(model => Model.Senha, new { htmlAttributes = new { @class = "form-control form-control-sm", @placeholder = "*******" } })
+                            @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved "></span> Salvar</button>
+                    </div>
+                        
+                </div>
+                
+            </div>
+        </div>
+}
+    </div>
+</div>

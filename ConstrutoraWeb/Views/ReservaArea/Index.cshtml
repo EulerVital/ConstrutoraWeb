@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ConstrutoraWeb.Models.ReservaAreaViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="margin:5%;">
+    <div class="panel panel-default">
+        <div class="panel-heading col">
+            <a href="@Url.Action("Reservar", "ReservaArea")" class="btn btn-info">
+                <span class='glyphicon glyphicon-plus'></span> Nova Reservar
+            </a>
+        </div>
+        <table class="table table-responsive table-hover table-bordered">
+            <tr>
+                <th scope="col">
+                    <label>Código Reserva</label>
+                </th>
+                <th scope="col">
+                    <label>Área</label>
+                </th>
+                <th scope="col">
+                    <label>Tipo de Área</label>
+                </th>
+                <th scope="col">
+                    <label>Modo de Uso</label>
+                </th>
+                <th scope="col">
+                    <label>Data Reservar</label>
+                </th>
+                <th scope="col">
+                    <label>Horario</label>
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.ReservaArea.ReservaAreaID</th>
+                    <td>@item.ReservaArea.Area.NomeArea</td>
+                    <td>@item.ReservaArea.Area.TipoArea</td>
+                    <td>@item.ReservaArea.Area.ModoUso</td>
+                    <td>@item.ReservaArea.DataReserva.ToString("dd/MM/yyyy")</td>
+                    <td>@item.Horario.Horario</td>
+                    <td>
+                        <a href="@Url.Action(string.Format("Editar/{0}", item.ReservaArea.ReservaAreaID), "ReservaArea")" class="btn btn-info btn-sm">
+                            <span class='glyphicon glyphicon-edit'></span> Editar
+                        </a>
+                        <a href="@Url.Action(string.Format("Detalhe/{0}", item.ReservaArea.ReservaAreaID), "ReservaArea")" class="btn btn-default btn-sm">
+                            <span class='glyphicon glyphicon-eye-open'></span> Detalhes
+                        </a>
+                        <a href="@Url.Action(string.Format("Cancelar/{0}", item.ReservaArea.ReservaAreaID), "ReservaArea")" class="btn btn-danger btn-sm">
+                            <span class='glyphicon glyphicon-remove-circle'></span> Cancelar
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
