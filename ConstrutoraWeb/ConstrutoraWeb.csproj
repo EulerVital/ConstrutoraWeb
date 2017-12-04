@@ -169,6 +169,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\Logar.cshtml" />
     <Content Include="Views\ReservaArea\Index.cshtml" />
+    <Content Include="Views\ReservaArea\Reservar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

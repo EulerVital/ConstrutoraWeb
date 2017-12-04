@@ -41,21 +41,34 @@ namespace ConstrutoraWeb.Controllers
             return View();
         }
 
-        // GET: ReservaArea/Create
-        public ActionResult Create()
+        // GET: ReservaArea/Reservar
+        public ActionResult Reservar()
         {
-            return View();
+            var obj = new ReservaAreaViewModel();
+            obj.ReservaArea.Morador = (eMorador)Session["Morador"];
+
+            var listaAreas = nArea.Area_GET(new eArea() { Condominio = obj.ReservaArea.Morador.Apartamento.Predio.Bloco.Condominio });
+            ViewBag.ListaAreas = listaAreas;
+
+            return View(obj);
         }
 
-        // POST: ReservaArea/Create
+        // POST: ReservaArea/Reservar
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Reservar(ReservaAreaViewModel objReservar)
         {
             try
             {
-                // TODO: Add insert logic here
+                eReservarArea obj = null;
+                
+                if(objReservar != null)
+                {
+                    obj = new eReservarArea();
 
-                return RedirectToAction("Index");
+                    obj.Area = objReservar.ReservaArea.Area;
+                }       
+
+                return RedirectToAction("Reservar");
             }
             catch
             {
