@@ -24,7 +24,7 @@ namespace ConstrutoraWeb.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "Logar");
+                return RedirectToAction("Logar", "Login");
             }
         }
 

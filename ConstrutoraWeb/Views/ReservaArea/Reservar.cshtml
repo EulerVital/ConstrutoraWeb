@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-2">Selecione a Área</label>
                     <div class="col-md-10">
-                        <select name="AreaID" id="slAreaID" class="form-control" onselect="" required>
+                        <select name="AreaID" id="slAreaID" class="form-control" onchange="SelecionaArea()" required>
                             <option value="">Selecione um serviço</option>
                             @foreach (var item in ViewBag.ListaAreas)
                             {
@@ -51,6 +51,21 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="control-label col-md-2">Horarios: </label>
+                    <select name="HorarioID" id="slHorarioID" class="form-control" riquired>
+                        <option>Selecione um Horario</option>
+                        @{ 
+                            if(ViewBag.ListaHorario != null)
+                            {
+                                foreach(var item in ViewBag.ListaHorario)
+                                {
+                                    <option value="@item.HorarioID">@item.Horario</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <button type="submit" class="btn btn-info">
                             <span class='glyphicon glyphicon-floppy-saved'></span> Salvar
@@ -62,6 +77,18 @@
     </div>
 }
 
+
+<script>
+    function SelecionaArea() {
+        if (("#slAreaID").val() != "")
+        { 
+            $.post("/ReservaAreaController/Reservar", { employeeID: $("#slAreaID").val() }, function (data) {
+                $("#employeeDetailsDiv").html(data)
+            })          
+        }
+    };
+
+</script>
 
 
 @section Scripts {

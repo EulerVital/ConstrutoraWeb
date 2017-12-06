@@ -23,7 +23,7 @@ namespace ConstrutoraWeb.Controllers
 
                 listaReservas = nReservarArea.ReservaArea_GET(new eReservarArea() { Morador = obj });
 
-                foreach(var item in listaReservas)
+                foreach (var item in listaReservas)
                 {
                     var objHorario = nHorario.HORARIO_GET(new eHorario() { Area = item.Area, Reservado = true }).FirstOrDefault();
                     lista.Add(new ReservaAreaViewModel() { ReservaArea = item, Horario = objHorario });
@@ -60,13 +60,13 @@ namespace ConstrutoraWeb.Controllers
             try
             {
                 eReservarArea obj = null;
-                
-                if(objReservar != null)
+
+                if (objReservar != null)
                 {
                     obj = new eReservarArea();
 
                     obj.Area = objReservar.ReservaArea.Area;
-                }       
+                }
 
                 return RedirectToAction("Reservar");
             }
@@ -118,6 +118,11 @@ namespace ConstrutoraWeb.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult CarregarHorario(int employeeID)
+        { //Obter detalhes do empregado aqui. retornar PartialView ( "caminho para uma exibição parcial para exibir" , employeeDetailsModel ) }
+            return View();
         }
     }
 }
